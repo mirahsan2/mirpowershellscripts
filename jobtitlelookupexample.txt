@@ -1,0 +1,21 @@
+# Define the list of user accounts
+$userAccounts = @("user1", "user2", "user3")
+
+# Create an empty array to store user information
+$userInfo = @()
+
+# Loop through each user account and get their job title
+foreach ($user in $userAccounts) {
+    $userDetails = Get-ADUser -Identity $user -Properties Title
+    $userInfo += [PSCustomObject]@{
+        UserName = $userDetails.SamAccountName
+        JobTitle = $userDetails.Title
+    }
+}
+
+# Export the user information to a CSV file
+$userInfo | Export-Csv -Path "C:\Users\mir.ahsan\OneDrive - Kiewit Corporation\Scripts\Win11Project\AllJobTitles2.csv" -NoTypeInformation
+
+Write-Output "User information exported to CSV successfully."
+
+#Make sure to replace `"user1", "user2", "user3"` with the actual user accounts you want to query, and update the path `"C:\Path\To\Your\File.csv"` to where you want to save the CSV file.
